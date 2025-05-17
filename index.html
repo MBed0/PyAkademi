@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PyAkademi</title>
+  <link rel="website icon" type="png"
+   href="PyAkademi.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #3f51b5;
+      --primary-light: #757de8;
+      --primary-dark: #002984;
+      --secondary-color: #03a9f4;
+      --secondary-light: #67daff;
+      --secondary-dark: #007ac1;
+      --success-color: #4caf50;
+      --error-color: #f44336;
+      --light-color: #f8f9fa;
+      --dark-color: #343a40;
+      --text-color: #212121;
+      --text-light: #757575;
+      --border-radius: 8px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #f5f7fa;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .hidden { 
+      display: none !important; 
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      padding: 30px;
+      margin-bottom: 25px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo i {
+      font-size: 2.5rem;
+    }
+    
+    .logo-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: var(--border-radius);
+      transition: background-color 0.3s;
+    }
+    
+    nav a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+    }
+    
+    h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: var(--secondary-color);
+    }
+    
+    h3 {
+      color: var(--primary-dark);
+      margin-bottom: 15px;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 2px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    input[type="text"]:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(3, 169, 244, 0.2);
+    }
+    
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s;
+      display: inline-block;
+      text-align: center;
+      margin: 10px 0;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary-color);
+    }
+    
+    .btn-secondary:hover {
+      background-color: var(--secondary-dark);
+    }
+    
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+    
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 14px;
+      border: 2px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 15px;
+      resize: vertical;
+      margin: 15px 0;
+      transition: all 0.3s;
+    }
+    
+    textarea:focus {
+      border-color: var(--secondary-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(3, 169, 244, 0.2);
+    }
+    
+    #sonuc {
+      padding: 15px;
+      border-radius: var(--border-radius);
+      margin-top: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .success {
+      background-color: rgba(76, 175, 80, 0.15);
+      color: var(--success-color);
+      border-left: 5px solid var(--success-color);
+    }
+    
+    .error {
+      background-color: rgba(244, 67, 54, 0.15);
+      color: var(--error-color);
+      border-left: 5px solid var(--error-color);
+    }
+    
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 12px;
+      background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.5s;
+    }
+    
+    .level-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    
+    .welcome-message {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .welcome-message img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+    
+    .hint {
+      background-color: rgba(3, 169, 244, 0.08);
+      border-left: 3px solid var(--secondary-color);
+      padding: 12px 15px;
+      margin: 15px 0;
+      font-style: italic;
+      color: var(--text-light);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+    
+    .challenge-list {
+      margin-top: 20px;
+    }
+    
+    .challenge-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      background-color: #f9fafb;
+      margin-bottom: 10px;
+      transition: all 0.3s;
+    }
+    
+    .challenge-item:hover {
+      transform: translateX(5px);
+      background-color: #f0f4f7;
+    }
+    
+    .challenge-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .challenge-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .challenge-description {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+    
+    .challenge-status {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .status-completed {
+      background-color: var(--success-color);
+    }
+    
+    .status-pending {
+      background-color: #ffc107;
+    }
+    
+    .status-locked {
+      background-color: #9e9e9e;
+    }
+    
+    .editor-container {
+      position: relative;
+    }
+    
+    .editor-tools {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .editor-btn {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 5px 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .editor-btn:hover {
+      background-color: #f0f4f7;
+    }
+    
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+    
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .footer-links a {
+      color: #bdbdbd;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .footer-social a {
+      color: white;
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+    
+    .footer-social a:hover {
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      margin-top: 20px;
+      color: #bdbdbd;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      nav ul {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="header" class="hidden">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-code"></i>
+        <div class="logo-text">PyAkademi</div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" onclick="cikisYap()"><i class="fas fa-sign-out-alt"></i> Çıkış</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div id="giris" class="card">
+      <div class="welcome-message">
+        <i class="fas fa-laptop-code" style="font-size: 60px; color: var(--primary-color); margin-bottom: 20px;"></i>
+        <h1>PyAkademi</h1>
+        <p>Kodlama öğrenmeye hazır mısın? Adını yaz ve eğitime başla!</p>
+      </div>
+      
+      <input type="text" id="username" placeholder="Adın ne?" />
+      <button class="btn btn-block" onclick="baslat()">Başla</button>
+    </div>
+
+    <div id="akademi" class="hidden">
+      <div class="card">
+        <h2>Merhaba <span id="ad"></span>!</h2>
+        <div class="level-info">
+          <span>Seviye: <span id="seviye" style="font-weight: bold;">1</span></span>
+          <span id="level-title">Başlangıç</span>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 id="soru-baslik"><i class="fas fa-question-circle"></i> Soru:</h3>
+        <p id="soru-metni">Ekrana "Merhaba" yazdır.</p>
+        
+        <div class="editor-container">
+          <textarea id="kod" placeholder="Python kodunuzu buraya yazın..."></textarea>
+          <div class="editor-tools">
+            <button class="editor-btn" onclick="temizle()"><i class="fas fa-trash"></i> Temizle</button>
+            <button class="editor-btn" onclick="ornekGoster()"><i class="fas fa-lightbulb"></i> Örnek</button>
+          </div>
+        </div>
+        
+        <button class="btn" onclick="kontrolEt()"><i class="fas fa-play"></i> Çalıştır</button>
+        <div class="hint">
+          <i class="fas fa-lightbulb"></i> <span id="hint">Python'da ekrana yazdırmak için print() fonksiyonunu kullanın.</span>
+        </div>
+        <div id="sonuc"></div>
+      </div>
+      
+      <div class="card">
+        <h3><i class="fas fa-trophy"></i> Seviye Zorlukları</h3>
+        <div class="challenge-list" id="challenge-list">
+          <!-- Challenges will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="hidden" id="footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#">Hakkımızda</a>
+        <a href="#">İletişim</a>
+        <a href="#">Yardım</a>
+        <a href="#">Gizlilik Politikası</a>
+      </div>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 Mini Kod Akademi. Tüm hakları saklıdır.
+    </div>
+  </footer>
+
+  <script>
+    const levels = [
+      {
+        level: 1,
+        title: "Başlangıç",
+        question: 'Ekrana "Merhaba" yazdır.',
+        answer: ['print("Merhaba")', "print('Merhaba')"],
+        hint: "Python'da ekrana yazdırmak için print() fonksiyonunu kullanın.",
+        example: 'print("Merhaba Dünya")'
+      },
+      {
+        level: 2,
+        title: "Değişkenler",
+        question: 'Bir "isim" değişkeni oluşturup içine kendi adını yaz ve ekrana yazdır.',
+        answer: ['isim = "Adım"\nprint(isim)', "isim = 'Adım'\nprint(isim)"],
+        hint: "Değişken oluşturma örneği: x = 5",
+        example: 'isim = "Ali"\nprint(isim)'
+      },
+      {
+        level: 3,
+        title: "Matematik",
+        question: "5 ve 3 sayılarını toplayıp sonucu ekrana yazdır.",
+        answer: ['print(5 + 3) , print(5 + 3)'],
+        hint: "Toplama işlemi için + operatörünü kullanın.",
+        example: 'a = 10\nb = 20\nprint(a + b)'
+      },
+      {
+        level: 4,
+        title: "Koşullar",
+        question: "Eğer 10, 5'ten büyükse ekrana 'Doğru' yazdır.",
+        answer: ['if 10 > 5:\n    print("Doğru")'],
+        hint: "if koşulunun sonuna : koymayı unutmayın.",
+        example: 'if 15 > 7:\n    print("15 sayısı 7\'den büyüktür")'
+      },
+      {
+        level: 5,
+        title: "Döngüler",
+        question: "0'dan 2'ye kadar sayıları ekrana yazdır (for döngüsü ile).",
+        answer: ['for i in range(3):\n    print(i)'],
+        hint: "range(3) 0, 1, 2 sayılarını verir.",
+        example: 'for sayi in range(5):\n    print("Sayı:", sayi)'
+      },
+      {
+        level: 6,
+        title: "Listeler",
+        question: "Meyveler listesi oluştur ve içindeki her meyveyi döngü ile yazdır.",
+        answer: ['meyveler = ["elma", "armut", "muz"]\nfor meyve in meyveler:\n    print(meyve)'],
+        hint: "Liste tanımlama: liste = [eleman1, eleman2, ...]",
+        example: 'sayilar = [1, 2, 3, 4]\nfor sayi in sayilar:\n    print(sayi * 2)'
+      },
+      {
+        level: 7,
+        title: "Fonksiyonlar",
+        question: "İki sayıyı toplayan bir fonksiyon yaz ve 5 ile 7'yi toplayarak sonucu yazdır.",
+        answer: ['def topla(a, b):\n    return a + b\n\nprint(topla(5, 7))'],
+        hint: "Fonksiyon tanımlama: def fonksiyon_adi(parametre1, parametre2):",
+        example: 'def selamla(isim):\n    return "Merhaba " + isim\n\nprint(selamla("Ayşe"))'
+      }
+    ];
+
+    let currentLevel = 0;
+    let username = "";
+
+    // Sayfa yüklendiğinde kullanıcı bilgilerini kontrol et
+    window.onload = function() {
+      const savedUser = localStorage.getItem("kullanici");
+      const savedLevel = localStorage.getItem("seviye");
+      
+      if (savedUser && savedLevel) {
+        username = savedUser;
+        currentLevel = parseInt(savedLevel) - 1;
+        
+        if (currentLevel >= levels.length) {
+          currentLevel = levels.length - 1;
+          localStorage.setItem("seviye", levels.length);
+        }
+        
+        showMainInterface();
+        loadLevel(currentLevel);
+      }
+
+      // Challenge listesini güncelle
+      updateChallengeList();
+    };
+
+    function showMainInterface() {
+      document.getElementById("giris").classList.add("hidden");
+      document.getElementById("akademi").classList.remove("hidden");
+      document.getElementById("header").classList.remove("hidden");
+      document.getElementById("footer").classList.remove("hidden");
+    }
+
+    function baslat() {
+      const name = document.getElementById('username').value.trim();
+      
+      if (!name) {
+        alert('Lütfen adınızı giriniz!');
+        return;
+      }
+      
+      username = name;
+      localStorage.setItem("kullanici", username);
+      
+      // Kullanıcı seviyesini kontrol et, yoksa 1 olarak ata
+      if (!localStorage.getItem("seviye")) {
+        localStorage.setItem("seviye", "1");
+        currentLevel = 0;
+      } else {
+        const level = localStorage.getItem("seviye");
+        currentLevel = parseInt(level) - 1;
+      }
+      
+      // Ana arayüzü göster
+      showMainInterface();
+      loadLevel(currentLevel);
+      updateChallengeList();
+    }
+
+    function cikisYap() {
+      // Seviyeyi kaydet
+      localStorage.setItem("seviye", (currentLevel + 1).toString());
+      
+      // Oturumu kapat
+      localStorage.removeItem("kullanici");
+      
+      // Giriş ekranını göster
+      document.getElementById("giris").classList.remove("hidden");
+      document.getElementById("akademi").classList.add("hidden");
+      document.getElementById("header").classList.add("hidden");
+      document.getElementById("footer").classList.add("hidden");
+    }
+
+    // Seviye yönetimi
+    function loadLevel(level) {
+      const currentLevelData = levels[level];
+      
+      document.getElementById("ad").textContent = username;
+      document.getElementById("seviye").textContent = level + 1;
+      document.getElementById("level-title").textContent = currentLevelData.title;
+      document.getElementById("soru-metni").textContent = currentLevelData.question;
+      document.getElementById("hint").textContent = currentLevelData.hint;
+      
+      // İlerleme çubuğunu güncelle
+      const progress = ((level + 1) / levels.length) * 100;
+      document.getElementById("progress-bar").style.width = `${progress}%`;
+      
+      // Editörü temizle
+      document.getElementById("kod").value = "";
+      
+      // Sonuç alanını temizle
+      const sonucDiv = document.getElementById("sonuc");
+      sonucDiv.className = "";
+      sonucDiv.textContent = "";
+      sonucDiv.style.display = "none";
+    }
+
+    function kontrolEt() {
+      const kod = document.getElementById("kod").value.trim();
+      const sonucDiv = document.getElementById("sonuc");
+      
+      if (!kod) {
+        sonucDiv.className = "error";
+        sonucDiv.innerHTML = "<i class='fas fa-times-circle'></i> Lütfen kod yazınız!";
+        sonucDiv.style.display = "flex";
+        return;
+      }
+      
+      const currentLevelData = levels[currentLevel];
+      let dogru = false;
+      
+      // Cevabı kontrol et
+      for (const answer of currentLevelData.answer) {
+        // Boşlukları ve yeni satırları normalleştirerek karşılaştır
+        const normalizedAnswer = answer.replace(/\s+/g, ' ').trim();
+        const normalizedKod = kod.replace(/\s+/g, ' ').trim();
+        
+        if (normalizedKod === normalizedAnswer || kod.includes(answer)) {
+          dogru = true;
+          break;
+        }
+      }
+      
+      if (dogru) {
+        sonucDiv.className = "success";
+        sonucDiv.innerHTML = "<i class='fas fa-check-circle'></i> Tebrikler, doğru cevap!";
+        
+        // 3 saniye sonra bir sonraki seviyeye geç
+        setTimeout(() => {
+          if (currentLevel < levels.length - 1) {
+            currentLevel++;
+            localStorage.setItem("seviye", currentLevel + 1);
+            loadLevel(currentLevel);
+            updateChallengeList();
+          } else {
+            alert("Tebrikler! Tüm seviyeleri tamamladınız!");
+          }
+        }, 3000);
+      } else {
+        sonucDiv.className = "error";
+        sonucDiv.innerHTML = "<i class='fas fa-times-circle'></i> Yanlış cevap, tekrar deneyin!";
+      }
+      
+      sonucDiv.style.display = "flex";
+    }
+
+    function temizle() {
+      document.getElementById("kod").value = "";
+    }
+
+    function ornekGoster() {
+      const currentLevelData = levels[currentLevel];
+      document.getElementById("kod").value = currentLevelData.example;
+    }
+
+    // Challenge listesini güncelle
+    function updateChallengeList() {
+      const challengeList = document.getElementById('challenge-list');
+      challengeList.innerHTML = '';
+      
+      for (let i = 0; i < levels.length; i++) {
+        const level = levels[i];
+        const challengeItem = document.createElement('div');
+        challengeItem.className = 'challenge-item';
+        
+        let statusClass = 'status-locked';
+        let statusIcon = 'fa-lock';
+        
+        if (i < currentLevel) {
+          statusClass = 'status-completed';
+          statusIcon = 'fa-check';
+        } else if (i === currentLevel) {
+          statusClass = 'status-pending';
+          statusIcon = 'fa-hourglass-half';
+        }
+        
+        challengeItem.innerHTML = `
+          <div class="challenge-info">
+            <div class="challenge-title">Seviye ${i + 1}: ${level.title}</div>
+            <div class="challenge-description">${level.question}</div>
+          </div>
+          <div class="challenge-status ${statusClass}">
+            <i class="fas ${statusIcon}"></i>
+          </div>
+        `;
+        
+        // Tamamlanan ve şu anki seviyeye tıklanabilirlik ekle
+        if (i <= currentLevel) {
+          challengeItem.style.cursor = 'pointer';
+          challengeItem.onclick = function() {
+            currentLevel = i;
+            loadLevel(i);
+          };
+        } else {
+          challengeItem.style.opacity = '0.7';
+        }
+        
+        challengeList.appendChild(challengeItem);
+      }
+    }
+  </script>
+</body>
+</html>
